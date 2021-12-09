@@ -4,6 +4,7 @@ import com.sample.data.PatientController;
 import org.sqlite.SQLiteException;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -61,10 +62,56 @@ public class CreatePatientDialog extends JDialog {
     }
 
     private void onOK() {
-        // update database table
         HashMap<String, Object> data = this.getData();
+        Color errorTxtBgColor = new Color(240,200,220);
+        Color defaultTxtBgColor = new JTextField().getBackground();
+
+        // validate input
+        if (!InputValidator.isPatientId(data.get("id").toString())) {
+            txtId.setBackground(errorTxtBgColor);
+            JOptionPane.showMessageDialog(this, "id must be included digits and letters.");
+            return;
+        }
+        txtId.setBackground(defaultTxtBgColor);
+
+
+        if (!InputValidator.isName(data.get("name").toString())) {
+            txtName.setBackground(errorTxtBgColor);
+            JOptionPane.showMessageDialog(this, "name can only contain letters and space.");
+            return;
+        }
+        txtName.setBackground(defaultTxtBgColor);
+
+        if (!InputValidator.isName(data.get("surname").toString())) {
+            txtSurname.setBackground(errorTxtBgColor);
+            JOptionPane.showMessageDialog(this, "surname can only contain letters and space.");
+            return;
+        }
+        txtSurname.setBackground(defaultTxtBgColor);
+
+        if (!InputValidator.isPhone(data.get("phone").toString())) {
+            txtPhone.setBackground(errorTxtBgColor);
+            JOptionPane.showMessageDialog(this, "phone must be not less than 5 digits.");
+            return;
+        }
+        txtPhone.setBackground(defaultTxtBgColor);
+
+        if (!InputValidator.isEmail(data.get("email").toString())) {
+            txtEmail.setBackground(errorTxtBgColor);
+            JOptionPane.showMessageDialog(this, "email address format  must be valid.");
+            return;
+        }
+        txtEmail.setBackground(defaultTxtBgColor);
+
+        if (!InputValidator.isMedicalConditionsString(data.get("medical_conditions").toString())) {
+            txtMedicalConditions.setBackground(errorTxtBgColor);
+            JOptionPane.showMessageDialog(this, "medical conditions must be this form: \nsneezes,headache");
+            return;
+        }
+        txtMedicalConditions.setBackground(defaultTxtBgColor);
+
+        // update patient in database
         try {
-            // update patient in database
             new PatientController().add(data);
 
             result = true;
@@ -91,13 +138,13 @@ public class CreatePatientDialog extends JDialog {
     }
 
     public HashMap<String, Object> getData() {
-        HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("id", txtId.getText());
-        data.put("name", txtName.getText());
-        data.put("surname", txtSurname.getText());
-        data.put("phone", txtPhone.getText());
-        data.put("email", txtEmail.getText());
-        data.put("medical_conditions", txtMedicalConditions.getText());
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("id", txtId.getText().trim());
+        data.put("name", txtName.getText().trim());
+        data.put("surname", txtSurname.getText().trim());
+        data.put("phone", txtPhone.getText().trim());
+        data.put("email", txtEmail.getText().trim());
+        data.put("medical_conditions", txtMedicalConditions.getText().trim());
 
         return data;
     }
