@@ -154,7 +154,7 @@ public class AppForm {
 //                if (isValidate) {
 //                    return super.stopCellEditing();
 //                } else {
-//                    JOptionPane.showMessageDialog(pnlAppForm, "id must be included digits and letters.");
+//                    JOptionPane.showMessageDialog(pnlAppForm, "id can only be digits and letters.");
 //                    return false;
 //                }
 //            }

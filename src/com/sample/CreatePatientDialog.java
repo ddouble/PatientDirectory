@@ -69,7 +69,7 @@ public class CreatePatientDialog extends JDialog {
         // validate input
         if (!InputValidator.isPatientId(data.get("id").toString())) {
             txtId.setBackground(errorTxtBgColor);
-            JOptionPane.showMessageDialog(this, "id must be included digits and letters.");
+            JOptionPane.showMessageDialog(this, "id can only be digits and letters.");
             return;
         }
         txtId.setBackground(defaultTxtBgColor);
@@ -120,7 +120,10 @@ public class CreatePatientDialog extends JDialog {
         } catch (SQLiteException ex) {
             if (ex.getResultCode().code == 1555) {    // SQLITE_CONSTRAINT_PRIMARYKEY
                 JOptionPane.showMessageDialog(this, "The ID has been used. Please use another ID");
+
+                txtId.setBackground(errorTxtBgColor);
             } else ex.printStackTrace();
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

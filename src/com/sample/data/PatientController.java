@@ -136,8 +136,7 @@ public class PatientController {
 
         } catch (SQLException ex) {
             Connection.get().rollback();
-            ex.printStackTrace();
-            return false;
+            throw ex;
         } finally {
             Connection.get().setAutoCommit(true);
         }
